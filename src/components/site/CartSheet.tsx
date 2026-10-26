@@ -48,7 +48,19 @@ export function CartSheet() {
               {remaining > 0 ? `Add ₹${remaining} more for free home delivery.` : "🎉 Free home delivery unlocked (within 3 km)."}
             </p>
             <Button variant="whatsapp" size="xl" className="w-full" asChild>
-              <a href={waLink(buildOrderMessage(lines))} target="_blank" rel="noreferrer">Send order on WhatsApp</a>
+              <a
+                href={waLink(buildOrderMessage(lines))}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const url = waLink(buildOrderMessage(lines));
+                  const w = window.open(url, "_blank", "noopener,noreferrer");
+                  if (!w) window.top ? (window.top.location.href = url) : (window.location.href = url);
+                }}
+              >
+                Send order on WhatsApp
+              </a>
             </Button>
             <p className="text-xs text-muted-foreground">Sending a WhatsApp message doesn't confirm your order — the restaurant will reply to confirm.</p>
             <button onClick={clear} className="text-xs font-semibold text-muted-foreground underline">Clear order</button>

@@ -10,6 +10,6 @@ describe("whatsapp order", () => {
     expect(subtotal([{ id: "a", name: "x", price: 80, qty: 3 }])).toBe(240);
   });
   it("uses restaurant number", () => {
-    expect(waLink("hi")).toBe("https://wa.me/918796130029?text=hi");
+    expect(waLink("hi")).toBe("https://api.whatsapp.com/send?phone=918796130029&text=hi");
   });
 });
