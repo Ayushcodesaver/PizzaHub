@@ -13,6 +13,11 @@ describe("whatsapp order", () => {
     const m = buildOrderMessage([{ id: "a", name: "Pizza", price: 399, qty: 1 }], mapsPinLink(28.4595, 77.0266));
     expect(m).toContain("https://maps.google.com/?q=28.459500,77.026600");
   });
+  it("adds typed delivery address", () => {
+    const m = buildOrderMessage([{ id: "a", name: "Pizza", price: 399, qty: 1 }], null, "  12 MG Road ");
+    expect(m).toContain("Delivery address: 12 MG Road");
+    expect(buildOrderMessage([{ id: "a", name: "Pizza", price: 399, qty: 1 }], null, "  ")).not.toContain("Delivery address");
+  });
   it("uses restaurant number", () => {
     expect(waLink("hi")).toBe("https://wa.me/918796130029?text=hi");
   });
