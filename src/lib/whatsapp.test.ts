@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { buildOrderMessage, subtotal, waLink } from "./whatsapp";
+import { buildOrderMessage, mapsPinLink, subtotal, waLink } from "./whatsapp";
 
 describe("whatsapp order", () => {
   it("free delivery from ₹399", () => {
@@ -9,7 +9,11 @@ describe("whatsapp order", () => {
   it("subtotal multiplies qty", () => {
     expect(subtotal([{ id: "a", name: "x", price: 80, qty: 3 }])).toBe(240);
   });
+  it("adds delivery location pin", () => {
+    const m = buildOrderMessage([{ id: "a", name: "Pizza", price: 399, qty: 1 }], mapsPinLink(28.4595, 77.0266));
+    expect(m).toContain("https://maps.google.com/?q=28.459500,77.026600");
+  });
   it("uses restaurant number", () => {
-    expect(waLink("hi")).toBe("https://api.whatsapp.com/send?phone=918796130029&text=hi");
+    expect(waLink("hi")).toBe("https://wa.me/918796130029?text=hi");
   });
 });
