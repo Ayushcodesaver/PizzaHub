@@ -16,4 +16,5 @@ export function buildOrderMessage(lines: CartLine[]) {
   return [`Hi ${site.name}! I'd like to order:`, ...rows, `Subtotal: ₹${total}`, delivery].join("\n");
 }
 
-export const waLink = (text: string) => `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(text)}`;
+export const waLink = (text: string) =>
+  `https://api.whatsapp.com/send?phone=${site.whatsapp}&text=${encodeURIComponent(text)}`;
