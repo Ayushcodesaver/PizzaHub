@@ -1,0 +1,32 @@
+do $$ begin
+  if not exists (select 1 from pg_type t join pg_namespace n on n.oid=t.typnamespace where n.nspname='public' and t.typname='app_role') then
+    create type public.app_role as enum ('admin','user');
+  end if;
+end $$;
+create table if not exists public.user_roles (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade not null,
+  role public.app_role not null,
+  unique (user_id, role)
+);
+grant select on public.user_roles to authenticated;
+grant all on public.user_roles to service_role;
+alter table public.user_roles enable row level security;
+drop policy if exists "Users read own roles" on public.user_roles;
+create policy "Users read own roles" on public.user_roles for select to authenticated using (auth.uid() = user_id);
+create or replace function public.has_role(_user_id uuid, _role public.app_role)
+returns boolean language sql stable security definer set search_path = public as $$
+  select exists (select 1 from public.user_roles where user_id = _user_id and role = _role)
+$$;
+
+create table if not exists public.email_login_codes (
+  id uuid primary key default gen_random_uuid(),
+  email text not null,
+  code_hash text not null,
+  attempts int not null default 0,
+  expires_at timestamptz not null,
+  created_at timestamptz not null default now()
+);
+create index if not exists email_login_codes_email_created_idx on public.email_login_codes (email, created_at desc);
+grant all on public.email_login_codes to service_role;
+alter table public.email_login_codes enable row level security;
