@@ -1,9 +1,13 @@
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { deals, offers, offerTerms } from "@/data/menu";
+import { offerTerms } from "@/data/menu";
+import { useOffers } from "@/lib/catalog";
 import { waLink } from "@/lib/whatsapp";
 
 export function OffersGrid() {
+  const all = useOffers();
+  const offers = all.filter((o) => o.kind === "combo");
+  const deals = all.filter((o) => o.kind === "deal");
   return (
     <div className="space-y-6">
       <div className="grid gap-5 md:grid-cols-3">

@@ -3,7 +3,8 @@ import { Bike, MessageCircle, Phone, Pizza, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MenuCard } from "@/components/site/MenuCard";
 import { OffersGrid } from "@/components/site/Offers";
-import { categories, menu } from "@/data/menu";
+import { categories } from "@/data/menu";
+import { useMenu, usePartyHall } from "@/lib/catalog";
 import { site, telHref } from "@/data/site";
 import { waLink } from "@/lib/whatsapp";
 import hero from "@/assets/hero-pizza.jpg";
@@ -25,6 +26,8 @@ export const Route = createFileRoute("/")({
 const homeCats = ["classic-veg", "burgers", "sandwiches", "pasta", "fries", "shakes", "mojito", "cold-coffee", "wraps", "garlic-bread"];
 
 function Index() {
+  const menu = useMenu();
+  const party = usePartyHall();
   const featured = menu.filter((m) => m.featured);
   return (
     <>
@@ -115,7 +118,7 @@ function Index() {
           <p className="text-sm font-bold uppercase tracking-[0.2em] text-primary">Party Hall</p>
           <h2 className="mt-2 text-4xl font-extrabold">Make Every Celebration Delicious.</h2>
           <div className="mt-6 grid grid-cols-3 gap-3">
-            {[["Food package", site.partyHall.packagePrice], ["Per hour", site.partyHall.hourlyRate], ["3 hours", site.partyHall.threeHourRate]].map(([l, v]) => (
+            {[["Food package", party.packagePrice], ["Per hour", party.hourlyRate], ["3 hours", party.threeHourRate]].map(([l, v]) => (
               <div key={l} className="rounded-2xl bg-card p-4 shadow-card">
                 <p className="price text-2xl">₹{Number(v).toLocaleString("en-IN")}</p>
                 <p className="text-xs font-semibold text-muted-foreground">{l}</p>
