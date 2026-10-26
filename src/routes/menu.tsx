@@ -4,7 +4,8 @@ import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { MenuCard } from "@/components/site/MenuCard";
 import { PageHeader } from "@/components/site/PageHeader";
-import { categories, menu } from "@/data/menu";
+import { categories } from "@/data/menu";
+import { useMenu } from "@/lib/catalog";
 
 export const Route = createFileRoute("/menu")({
   head: () => ({
@@ -19,8 +20,9 @@ export const Route = createFileRoute("/menu")({
 });
 
 function MenuPage() {
+  const menu = useMenu();
   const [q, setQ] = useState("");
-  const filtered = useMemo(() => menu.filter((m) => m.name.toLowerCase().includes(q.trim().toLowerCase())), [q]);
+  const filtered = useMemo(() => menu.filter((m) => m.name.toLowerCase().includes(q.trim().toLowerCase())), [q, menu]);
   const groups = categories.map((c) => ({ c, items: filtered.filter((m) => m.category === c.id) })).filter((g) => g.items.length);
 
   return (

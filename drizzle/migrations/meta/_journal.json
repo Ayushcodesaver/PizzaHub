@@ -29,6 +29,13 @@
       "when": 1793019231896,
       "tag": "0003_migration",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1793021040644,
+      "tag": "0004_admin_catalog_orders",
+      "breakpoints": true
     }
   ]
 }

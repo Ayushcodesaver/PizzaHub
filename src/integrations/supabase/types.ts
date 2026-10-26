@@ -41,6 +41,138 @@ export type Database = {
         }
         Relationships: []
       }
+      menu_items: {
+        Row: {
+          available: boolean
+          category: string
+          featured: boolean
+          id: string
+          name: string
+          note: string | null
+          prices: number[]
+          sort: number
+          updated_at: string
+        }
+        Insert: {
+          available?: boolean
+          category: string
+          featured?: boolean
+          id: string
+          name: string
+          note?: string | null
+          prices?: number[]
+          sort?: number
+          updated_at?: string
+        }
+        Update: {
+          available?: boolean
+          category?: string
+          featured?: boolean
+          id?: string
+          name?: string
+          note?: string | null
+          prices?: number[]
+          sort?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      offers: {
+        Row: {
+          active: boolean
+          id: string
+          items: string[]
+          kind: string
+          price: number | null
+          sort: number
+          text: string | null
+          title: string
+        }
+        Insert: {
+          active?: boolean
+          id: string
+          items?: string[]
+          kind?: string
+          price?: number | null
+          sort?: number
+          text?: string | null
+          title: string
+        }
+        Update: {
+          active?: boolean
+          id?: string
+          items?: string[]
+          kind?: string
+          price?: number | null
+          sort?: number
+          text?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          address: string | null
+          created_at: string
+          customer_name: string | null
+          id: string
+          items: Json
+          location: string | null
+          phone: string | null
+          status: string
+          subtotal: number
+          user_id: string | null
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          customer_name?: string | null
+          id?: string
+          items?: Json
+          location?: string | null
+          phone?: string | null
+          status?: string
+          subtotal?: number
+          user_id?: string | null
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          customer_name?: string | null
+          id?: string
+          items?: Json
+          location?: string | null
+          phone?: string | null
+          status?: string
+          subtotal?: number
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          id: number
+          party_hourly_rate: number
+          party_package_items: string[]
+          party_package_price: number
+          party_three_hour_rate: number
+        }
+        Insert: {
+          id?: number
+          party_hourly_rate?: number
+          party_package_items?: string[]
+          party_package_price?: number
+          party_three_hour_rate?: number
+        }
+        Update: {
+          id?: number
+          party_hourly_rate?: number
+          party_package_items?: string[]
+          party_package_price?: number
+          party_three_hour_rate?: number
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/site/PageHeader";
 import { site, telHref } from "@/data/site";
 import { waLink } from "@/lib/whatsapp";
+import { usePartyHall } from "@/lib/catalog";
 import party from "@/assets/party.jpg";
 
 export const Route = createFileRoute("/party-hall")({
@@ -19,7 +20,7 @@ export const Route = createFileRoute("/party-hall")({
 });
 
 function PartyHall() {
-  const p = site.partyHall;
+  const p = usePartyHall();
   return (
     <>
       <PageHeader eyebrow="Party hall" title="Make Every Celebration Delicious.">
