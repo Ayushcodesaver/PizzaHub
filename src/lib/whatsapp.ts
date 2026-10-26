@@ -4,7 +4,10 @@ export type CartLine = { id: string; name: string; size?: string; price: number;
 
 export const subtotal = (lines: CartLine[]) => lines.reduce((s, l) => s + l.price * l.qty, 0);
 
-export function buildOrderMessage(lines: CartLine[]) {
+export const mapsPinLink = (lat: number, lng: number) =>
+  `https://maps.google.com/?q=${lat.toFixed(6)},${lng.toFixed(6)}`;
+
+export function buildOrderMessage(lines: CartLine[], location?: string | null) {
   const rows = lines.map(
     (l) => `• ${l.qty} x ${l.name}${l.size ? ` (${l.size})` : ""} — ₹${l.price * l.qty}`,
   );
@@ -13,8 +16,8 @@ export function buildOrderMessage(lines: CartLine[]) {
     total >= site.delivery.minOrder
       ? "Eligible for free home delivery."
       : `Add ₹${site.delivery.minOrder - total} more for free delivery.`;
-  return [`Hi ${site.name}! I'd like to order:`, ...rows, `Subtotal: ₹${total}`, delivery].join("\n");
+  return [`Hi ${site.name}! I'd like to order:`, ...rows, `Subtotal: ₹${total}`, delivery, ...(location ? [`📍 Delivery location: ${location}`] : [])].join("\n");
 }
 
 export const waLink = (text: string) =>
-  `https://api.whatsapp.com/send?phone=${site.whatsapp}&text=${encodeURIComponent(text)}`;
+  `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(text)}`;
