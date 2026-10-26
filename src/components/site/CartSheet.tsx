@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { MapPin, Minus, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { lineKey, useCart } from "@/lib/cart";
 import { buildOrderMessage, mapsPinLink, subtotal, waLink } from "@/lib/whatsapp";
@@ -11,6 +12,7 @@ export function CartSheet() {
   const total = subtotal(lines);
   const remaining = site.delivery.minOrder - total;
   const [loc, setLoc] = useState<string | null>(null);
+  const [address, setAddress] = useState("");
   const [locStatus, setLocStatus] = useState<"idle" | "loading" | "error">("idle");
   const shareLocation = () => {
     if (!navigator.geolocation) return setLocStatus("error");
@@ -59,12 +61,14 @@ export function CartSheet() {
             <p className="text-sm text-muted-foreground">
               {remaining > 0 ? `Add ₹${remaining} more for free home delivery.` : "🎉 Free home delivery unlocked (within 3 km)."}
             </p>
+            <label className="block text-sm font-semibold" htmlFor="delivery-address">Delivery address</label>
+            <Textarea id="delivery-address" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="House no., street, area, landmark" rows={2} maxLength={300} />
             <Button variant="outline" className="w-full" onClick={shareLocation} disabled={locStatus === "loading"}>
               <MapPin /> {loc ? "Location added ✓ (tap to update)" : locStatus === "loading" ? "Getting your location…" : "Add my delivery location"}
             </Button>
-            {locStatus === "error" && <p className="text-xs text-destructive">Couldn't get your location. Allow location access, or type your address in WhatsApp.</p>}
+            {locStatus === "error" && <p className="text-xs text-destructive">Couldn't get your location. Type your address above instead.</p>}
             <Button variant="whatsapp" size="xl" className="w-full" asChild>
-              <a href={waLink(buildOrderMessage(lines, loc))} target="_blank" rel="noreferrer">Send order on WhatsApp</a>
+              <a href={waLink(buildOrderMessage(lines, loc, address))} target="_blank" rel="noreferrer">Send order on WhatsApp</a>
             </Button>
             <p className="text-xs text-muted-foreground">Sending a WhatsApp message doesn't confirm your order — the restaurant will reply to confirm.</p>
             <button onClick={clear} className="text-xs font-semibold text-muted-foreground underline">Clear order</button>
